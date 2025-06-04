@@ -1,0 +1,326 @@
+<style>
+    /* Global Font Settings */
+    body {
+       /* font-family: 'Source Sans Pro', sans-serif;*/
+    }
+    h1, h2, h3, h4, h5, h6 {
+       /* font-family: 'Montserrat', sans-serif; */
+    }
+
+    /* Basic styling for the filter scaffold */
+    #crp-filter-container {
+        width: 280px; /* Adjusted width for better fit with PDF layout */
+        float: left; /* Keep float left */
+        padding: 0; /* Remove padding from container as inner boxes will have their own */
+        background-color: transparent; /* Main container background should be transparent */
+        box-sizing: border-box; /* Include padding in width */
+    }
+
+    #crp-filter-container h1 {
+        margin-top: 0;
+        margin-bottom: 20px; /* Space after main "Filters" title */
+        color: #333;
+        font-size: 2.6rem; /* Slightly larger for main title */
+        font-weight: bold;
+        padding-left: 15px; /* Align text with content inside boxes */
+       /* font-family: 'Montserrat', sans-serif;  Explicitly use Montserrat for this h3 */
+    }
+
+    /* Style for distinct shadowed containers */
+    .crp-shadow-box {
+        background-color: #fff; /* White background for all boxes */
+        /* border-radius: 8px; */ /* Slightly rounded corners - commented out as per previous code */
+        box-shadow: 0 2px 5px rgba(0,0,0,0.2); /* Shadow effect made darker (opacity increased to 0.2) */
+        padding: 15px; /* Padding inside each box */
+        margin-bottom: 20px; /* Separation between boxes */
+        box-sizing: border-box;
+    }
+
+    .crp-filter-section {
+        /* This class now primarily defines the structure before .crp-shadow-box styles */
+    }
+
+    .crp-filter-section h4 {
+        margin-top: 0;
+        margin-bottom: 10px;
+        color: #555;
+        font-size: 1.1rem; /* Section titles */
+        font-weight: bold;
+       /* font-family: 'Montserrat', sans-serif; /* Explicitly use Montserrat for this h4 */
+    }
+
+    .crp-filter-section ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .crp-filter-section li {
+        margin-bottom: 8px; /* Spacing between options */
+        display: flex;
+        align-items: center;
+      /*  font-family: 'Source Sans Pro', sans-serif; /* Ensure filter options use body font */
+    }
+
+    .crp-filter-section input[type="checkbox"] {
+        margin-right: 8px; /* Space between checkbox and label */
+    }
+
+    /* Selected Filters Section Styling */
+    #crp-selected-filters {
+        /* Inherits .crp-shadow-box styles for background and shadow */
+        border: none; /* No extra border needed */
+        display: none; /* Hidden by default, will show with JS when filters are applied */
+    }
+
+    #crp-selected-filters h4 {
+        margin-top: 0;
+        margin-bottom: 10px;
+        font-size: 1.1rem;
+        font-weight: bold;
+        color: #333;
+       /* font-family: 'Montserrat', sans-serif; /* Explicitly use Montserrat for this h4 */
+    }
+
+    #crp-selected-filters ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    #crp-selected-filters li {
+        /* NO individual box styling */
+        background-color: transparent; /* Ensure no background */
+        padding: 0; /* No padding for individual "tags" */
+        margin-bottom: 5px; /* Keep a small margin between selected text items */
+        border-radius: 0; /* No border radius */
+        border: none; /* No border */
+        display: flex;
+        gap: 3px; /* Smaller gap between 'x' and text for a tighter look */
+        justify-content: flex-start; /* Align items to the start */
+        align-items: center;
+        font-size: 1rem; /* Slightly adjusted font size for selected text */
+        color: #333; /* Ensure text color is consistent */
+       /* font-family: 'Source Sans Pro', sans-serif; /* Ensure selected filter text uses body font */
+    }
+
+    .remove-filter {
+        cursor: pointer;
+        color: #333; /* Black/dark grey as requested */
+        font-weight: bold;
+        font-size: 1rem; /* Slightly larger 'x' for visibility */
+        line-height: 1; /* Helps with vertical alignment of the 'x' */
+        padding: 0 2px; /* Small padding to make the 'x' clickable area a bit larger */
+    }
+
+    .crp-filter-heading {
+  font-family: "Source Sans Pro", HelveticaNeue-Light, "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+  font-size: 41.8868px;
+  font-style: normal;
+  font-weight: 300;
+  letter-spacing: -1px;
+  line-height: 50.8506px;
+  text-decoration: none;
+  color: #333333;
+  margin-bottom: 20px;
+}
+
+
+</style>
+
+<div id="crp-filter-container">
+    <h3 class="crp-filter-heading">Filters</h3>
+
+    <div id="crp-selected-filters" class="crp-shadow-box">
+        <h4>Selected Filters</h4>
+        <ul id="selected-filters-list">
+        </ul>
+    </div>
+
+    <div class="crp-filter-section crp-shadow-box">
+        <h4>Price</h4>
+        <ul>
+            <li><label><input type="checkbox" data-filter-type="price" data-min="0" data-max="10"> R0-R10</label></li>
+            <li><label><input type="checkbox" data-filter-type="price" data-min="10" data-max="20"> R10-R20</label></li>
+            <li><label><input type="checkbox" data-filter-type="price" data-min="20" data-max="30"> R20-R30</label></li>
+            <li><label><input type="checkbox" data-filter-type="price" data-min="30" data-max="40"> R30-R40</label></li>
+            <li><label><input type="checkbox" data-filter-type="price" data-min="40" data-max="50"> R40-R50</label></li>
+        </ul>
+    </div>
+
+    <div class="crp-filter-section crp-shadow-box">
+        <h4>Categories</h4>
+        <ul>
+            <li><label><input type="checkbox" data-filter-type="category" value="apparel"> Apparel</label></li>
+            <li><label><input type="checkbox" data-filter-type="category" value="bundles"> Bundles</label></li>
+            <li><label><input type="checkbox" data-filter-type="category" value="clothing"> Clothing</label></li>
+            <li><label><input type="checkbox" data-filter-type="category" value="hoodie"> Hoodie</label></li>
+            <li><label><input type="checkbox" data-filter-type="category" value="t-shirts"> T-shirts</label></li>
+            <li><label><input type="checkbox" data-filter-type="category" value="headwear"> Headwear</label></li>
+            <li><label><input type="checkbox" data-filter-type="category" value="beanie"> Beanie</label></li>
+        </ul>
+    </div>
+
+    <div class="crp-filter-section crp-shadow-box">
+        <h4>Availability</h4>
+        <ul>
+            <li><label><input type="checkbox" data-filter-type="availability" value="instock"> In stock</label></li>
+        </ul>
+    </div>
+
+</div>
+
+<script>
+    // --- Step 1: Log window.wooProducts ---
+    console.log("window.wooProducts:", window.wooProducts);
+
+    // --- Step 2: Basic Filter Interaction (to be expanded) ---
+
+    // Get references to filter elements
+    const filterContainer = document.getElementById('crp-filter-container');
+    const selectedFiltersSection = document.getElementById('crp-selected-filters');
+    const selectedFiltersList = document.getElementById('selected-filters-list');
+
+    // Stores active filters:
+    // price: array of {min: number, max: number}
+    // category: array of strings
+    // availability: array of strings
+    let activeFilters = {
+        price: [],
+        category: [],
+        availability: []
+    };
+
+    // Function to update the selected filters display
+    function updateSelectedFiltersDisplay() {
+        selectedFiltersList.innerHTML = ''; // Clear previous list
+        let filterCount = 0;
+
+        // Display Price filters
+        activeFilters.price.forEach(range => {
+            filterCount++;
+            const listItem = document.createElement('li');
+            listItem.id = `selected-price-${range.min}-${range.max}`;
+            listItem.innerHTML = `
+                <span class="remove-filter" data-filter-type="price" data-min="${range.min}" data-max="${range.max}">x</span>
+                <span>Price: R${range.min}-R${range.max}</span>
+            `;
+            selectedFiltersList.appendChild(listItem);
+        });
+
+        // Display Category filters
+        activeFilters.category.forEach(cat => {
+            filterCount++;
+            const listItem = document.createElement('li');
+            listItem.id = `selected-category-${cat.replace(/\s/g, '-')}`;
+            listItem.innerHTML = `
+                <span class="remove-filter" data-filter-type="category" data-filter-value="${cat}">x</span>
+                <span>Category: ${cat.charAt(0).toUpperCase() + cat.slice(1)}</span>
+            `;
+            selectedFiltersList.appendChild(listItem);
+        });
+
+        // Display Availability filters
+        activeFilters.availability.forEach(avail => {
+            filterCount++;
+            const displayValue = avail === 'instock' ? 'In stock' : 'Out of Stock'; // Consistent display
+            const listItem = document.createElement('li');
+            listItem.id = `selected-availability-${avail.replace(/\s/g, '-')}`;
+            listItem.innerHTML = `
+                <span class="remove-filter" data-filter-type="availability" data-filter-value="${avail}">x</span>
+                <span>Availability: ${displayValue}</span>
+            `;
+            selectedFiltersList.appendChild(listItem);
+        });
+
+
+        // Display or hide the "Selected filters" section based on whether filters are applied
+        if (filterCount > 0) {
+            selectedFiltersSection.style.display = 'block'; // Back to block display for the shadow box container
+        } else {
+            selectedFiltersSection.style.display = 'none';
+        }
+    }
+
+    // Event listener for filter clicks (checkboxes)
+    filterContainer.addEventListener('change', (event) => {
+        const target = event.target;
+        if (target.type === 'checkbox' && target.hasAttribute('data-filter-type')) {
+            const filterType = target.dataset.filterType;
+
+            if (filterType === 'price') {
+                const min = parseInt(target.dataset.min);
+                const max = parseInt(target.dataset.max);
+                const rangeObj = { min, max };
+
+                if (target.checked) {
+                    // Add to active filters if not already there
+                    if (!activeFilters.price.some(r => r.min === min && r.max === max)) {
+                        activeFilters.price.push(rangeObj);
+                    }
+                } else {
+                    // Remove from active filters
+                    activeFilters.price = activeFilters.price.filter(r => !(r.min === min && r.max === max));
+                }
+            } else { // Category or Availability
+                const filterValue = target.value;
+                if (target.checked) {
+                    if (!activeFilters[filterType].includes(filterValue)) {
+                        activeFilters[filterType].push(filterValue);
+                    }
+                } else {
+                    activeFilters[filterType] = activeFilters[filterType].filter(val => val !== filterValue);
+                }
+            }
+
+            console.log(`Filter changed. Current active filters:`, activeFilters);
+
+            updateSelectedFiltersDisplay(); // Update the "Selected filters" UI
+            // TODO: Next critical step is to call a function here that adjusts the page/products based on 'activeFilters'
+            // TODO: Also, hide the selected filter option from its original section once selected (CSS or JS manipulation)
+        }
+    });
+
+    // Event listener for removing selected filters
+    selectedFiltersList.addEventListener('click', (event) => {
+        const target = event.target;
+        if (target.classList.contains('remove-filter')) {
+            const filterType = target.dataset.filterType;
+
+            if (filterType === 'price') {
+                const min = parseInt(target.dataset.min);
+                const max = parseInt(target.dataset.max);
+                activeFilters.price = activeFilters.price.filter(r => !(r.min === min && r.max === max));
+
+                // Uncheck the corresponding checkbox
+                const originalCheckbox = filterContainer.querySelector(`input[data-filter-type="price"][data-min="${min}"][data-max="${max}"]`);
+                if (originalCheckbox) {
+                    originalCheckbox.checked = false;
+                }
+            } else { // Category or Availability
+                const filterValue = target.dataset.filterValue;
+                activeFilters[filterType] = activeFilters[filterType].filter(val => val !== filterValue);
+
+                // Uncheck the corresponding checkbox
+                const originalCheckbox = filterContainer.querySelector(`input[data-filter-type="${filterType}"][value="${filterValue}"]`);
+                if (originalCheckbox) {
+                    originalCheckbox.checked = false;
+                }
+            }
+            console.log(`Filter removed. Current active filters:`, activeFilters);
+            updateSelectedFiltersDisplay(); // Update the "Selected filters" UI
+            // TODO: Next critical step is to call a function here that adjusts the page/products based on updated 'activeFilters'
+            // TODO: Ensure the original filter option becomes visible again
+        }
+    });
+
+    // Initial display update for selected filters (in case of pre-applied filters from URL)
+    updateSelectedFiltersDisplay();
+
+    // IMPORTANT: You will need to insert this filter container into the DOM at the correct place on the shop page.
+    // Example: Find an existing element on the shop page (e.g., the parent of the product grid)
+    // and prepend or append this filter container.
+    // document.querySelector('.main-shop-content').prepend(filterContainer);
+    // You will need to inspect the demo site's HTML to find the appropriate target element.
+
+</script>
